@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyBot Assistant - AI Learning Companion</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="title-section">
+                        <h1>StudyBot Assistant</h1>
+                        <p>AI-powered learning companion for students</p>
+                    </div>
+                </div>
+                <div class="header-badges">
+                    <div class="badge">
+                        <i class="fas fa-users"></i>
+                        <span>Academic Integrity</span>
+                    </div>
+                    <div class="badge">
+                        <i class="fas fa-book-open"></i>
+                        <span>Learning Focused</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="content-grid">
+                <!-- Chat Interface -->
+                <div class="chat-section">
+                    <div class="chat-container">
+                        <!-- Chat Header -->
+                        <div class="chat-header">
+                            <div class="chat-header-content">
+                                <i class="fas fa-book-open"></i>
+                                <div>
+                                    <h2>Study Assistant</h2>
+                                    <p>Get hints and guidance for your studies</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Messages Container -->
+                        <div class="messages-container" id="messagesContainer">
+                            <div class="message assistant-message">
+                                <div class="message-content">
+                                    <div class="avatar assistant-avatar">
+                                        <i class="fas fa-robot"></i>
+                                    </div>
+                                    <div class="message-bubble assistant-bubble">
+                                        <div class="hint-indicator">
+                                            <i class="fas fa-lightbulb"></i>
+                                            <span>Study Hint</span>
+                                        </div>
+                                        <p>Hello! I'm your study assistant. I'm here to help guide your learning by providing hints, explanations, and study strategies. I won't give you direct answers, but I'll help you think through problems step by step. What would you like to study today?</p>
+                                        <span class="timestamp" id="initialTimestamp"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Loading Indicator -->
+                        <div class="loading-message" id="loadingMessage" style="display: none;">
+                            <div class="message-content">
+                                <div class="avatar assistant-avatar">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                                <div class="message-bubble assistant-bubble">
+                                    <div class="loading-dots">
+                                        <div class="dot"></div>
+                                        <div class="dot"></div>
+                                        <div class="dot"></div>
+                                    </div>
+                                    <span class="loading-text">Thinking...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Input Section -->
+                        <div class="input-section">
+                            <div class="input-container">
+                                <textarea 
+                                    id="messageInput" 
+                                    placeholder="Ask a question about your studies... (I'll provide hints and guidance)"
+                                    rows="2"
+                                ></textarea>
+                                <button id="sendButton" class="send-button">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                            <div class="disclaimer">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>This assistant provides study guidance and hints, not direct answers to prevent plagiarism.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Guidelines Sidebar -->
+                <div class="guidelines-section">
+                    <div class="guidelines-container">
+                        <div class="guidelines-header">
+                            <i class="fas fa-shield-alt"></i>
+                            <h3>Academic Integrity Guidelines</h3>
+                        </div>
+                        
+                        <div class="guidelines-content">
+                            <div class="guideline-item">
+                                <i class="fas fa-bullseye"></i>
+                                <div>
+                                    <h4>Learning-Focused Approach</h4>
+                                    <p>This assistant is designed to enhance your understanding by providing hints, explanations, and guiding questions rather than direct answers.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="guideline-item">
+                                <i class="fas fa-brain"></i>
+                                <div>
+                                    <h4>Critical Thinking Development</h4>
+                                    <p>You'll receive prompts and clues that encourage you to think through problems step-by-step, developing your analytical skills.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="guideline-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h4>Plagiarism Prevention</h4>
+                                    <p>The AI is programmed to avoid providing complete solutions or content that could be directly copied, maintaining academic integrity.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="usage-tips">
+                            <h4>How to Use This Tool Effectively:</h4>
+                            <ul>
+                                <li>Ask specific questions about concepts you're struggling with</li>
+                                <li>Request explanations of methodologies or approaches</li>
+                                <li>Seek guidance on how to structure your thinking</li>
+                                <li>Ask for study strategies and learning techniques</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon guided-learning">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Guided Learning</h3>
+                    <p>Get hints and step-by-step guidance that helps you understand concepts deeply</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon academic-integrity">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Academic Integrity</h3>
+                    <p>Designed to prevent plagiarism while supporting genuine learning and understanding</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon smart-assistance">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <h3>Smart Assistance</h3>
+                    <p>AI-powered responses that adapt to your learning style and academic needs</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>StudyBot Assistant - Empowering students through ethical AI-assisted learning</p>
+                <p class="footer-subtitle">Integrated with n8n workflows and Gemini AI for intelligent study guidance</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Configuration Modal -->
+    <div id="configModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Configuration</h3>
+                <span class="close" id="closeModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="config-section">
+                    <label for="n8nUrl">n8n Webhook URL (Optional):</label>
+                    <input type="url" id="n8nUrl" placeholder="https://your-n8n-instance.com/webhook/study-assistant">
+                </div>
+                <div class="config-section">
+                    <label for="geminiKey">Gemini API Key:</label>
+                    <input type="password" id="geminiKey" placeholder="Enter your Gemini API key">
+                </div>
+                <button id="saveConfig" class="save-button">Save Configuration</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Config Button -->
+    <button id="configButton" class="config-button">
+        <i class="fas fa-cog"></i>
+    </button>
+
+    <script src="script.js"></script>
+</body>
+</html>
