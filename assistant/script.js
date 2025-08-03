@@ -1,60 +1,7 @@
-// const API_KEY = "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";  // Replace with your real key
-
-// const chatBox = document.getElementById("chat-box");
-// const input = document.getElementById("user-input");
-
-// async function sendMessage() {
-//   const userText = input.value.trim();
-//   if (!userText) return;
-
-//   appendMessage("user", userText);
-//   input.value = "";
-
-//   appendMessage("ai", "Thinking...");
-
-//   const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//       "Authorization": `Bearer ${API_KEY}`,
-//       "HTTP-Referer": "http://localhost",  // optional but can help
-//     },
-//     body: JSON.stringify({
-//       model: "mistralai/mistral-7b-instruct",
-//       messages: [
-//         { role: "system", content: "You are a helpful assistant." },
-//         { role: "user", content: userText }
-//       ]
-//     })
-//   });
-
-//   const data = await response.json();
-//   removeLastMessage();
-
-//   if (data.choices && data.choices.length > 0) {
-//     const reply = data.choices[0].message.content;
-//     appendMessage("ai", reply);
-//   } else {
-//     appendMessage("ai", "No reply. Try again.");
-//   }
-// }
-
-// function appendMessage(role, text) {
-//   const msg = document.createElement("div");
-//   msg.className = `message ${role}`;
-//   msg.textContent = text;
-//   chatBox.appendChild(msg);
-//   chatBox.scrollTop = chatBox.scrollHeight;
-// }
-
-// function removeLastMessage() {
-//   const last = chatBox.lastChild;
-//   if (last) chatBox.removeChild(last);
-// }
 
 
 let messageId = 0;
-const API_KEY = "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";
+const API_KEY = "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";
 
 // Initialize chat
 document.addEventListener('DOMContentLoaded', function() {
