@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>LOGIN PAGE</title>
+</head>
+<body>
+  <section class="bg-gray-50 min-h-screen flex items-center justify-center p-4 relative">
+    
+    <!-- Back Button -->
+    <button onclick="window.location.href='../profile-select/index.html'" class="absolute top-4 left-4 bg-[#18008f] text-white px-4 py-2 rounded-lg hover:bg-[#14006f] transition-colors duration-200 flex items-center gap-2">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      </svg>
+      Back
+    </button>
+    
+    <div class="bg-gray-100 flex flex-col lg:flex-row rounded-2xl shadow-lg max-w-5xl w-full p-5 items-center">
+        
+      <!-- Login Form -->
+      <div class="w-full lg:w-1/2 px-4 lg:px-8 py-8 lg:py-0">
+        <h1 class="font-bold text-2xl lg:text-3xl text-[#18008f] text-center lg:text-left">PARENTS PANEL</h1>
+        <h2 class="font-bold text-lg lg:text-xl text-[#b0a7df] text-center lg:text-left mb-6">LOGIN</h2>
+
+        <form action="" class="flex flex-col gap-4">
+          <input
+            class="p-3 lg:p-2 mt-4 lg:mt-8 rounded-xl border w-full"
+            type="text"
+            name="username"
+            placeholder="Username"
+          />
+          <input
+            class="p-3 lg:p-2 rounded-xl border w-full"
+            type="password"
+            name="password"
+            placeholder="Password"
+          />
+          <button class="bg-[#18008f] rounded-xl text-white py-3 lg:py-4 w-full">LOGIN</button>
+          <div class="text-center">
+            <a href="#" class="text-[#18008f] text-sm hover:underline">Forgot Password? Contact admin</a>
+          </div>
+        </form>
+      </div>
+
+      <!-- Image -->
+      <div class="w-full lg:w-1/2 hidden sm:block">
+        <img class="rounded-2xl w-full h-auto" src="login.jpg" alt="Login illustration" />
+      </div>
+    </div>
+  </section>
+</body>
+</html>

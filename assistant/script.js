@@ -1,305 +1,290 @@
-// AI Service Class
-class AIService {
-    constructor() {
-        this.n8nWebhookUrl = localStorage.getItem('n8nWebhookUrl') || '';
-        this.geminiApiKey = localStorage.getItem('geminiApiKey') || '';
-    }
+// const API_KEY = "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";  // Replace with your real key
 
-    updateConfig(n8nUrl, geminiKey) {
-        this.n8nWebhookUrl = n8nUrl;
-        this.geminiApiKey = geminiKey;
-        localStorage.setItem('n8nWebhookUrl', n8nUrl);
-        localStorage.setItem('geminiApiKey', geminiKey);
-    }
+// const chatBox = document.getElementById("chat-box");
+// const input = document.getElementById("user-input");
 
-    async processStudentQuery(query) {
-        try {
-            // First, try to use n8n workflow if available
-            if (this.n8nWebhookUrl && this.n8nWebhookUrl.trim() !== '') {
-                return await this.processWithN8N(query);
-            }
-            
-            // Fallback to direct Gemini API call
-            return await this.processWithGemini(query);
-        } catch (error) {
-            console.error('Error processing query:', error);
-            return this.getFallbackResponse(query);
+// async function sendMessage() {
+//   const userText = input.value.trim();
+//   if (!userText) return;
+
+//   appendMessage("user", userText);
+//   input.value = "";
+
+//   appendMessage("ai", "Thinking...");
+
+//   const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//       "Authorization": `Bearer ${API_KEY}`,
+//       "HTTP-Referer": "http://localhost",  // optional but can help
+//     },
+//     body: JSON.stringify({
+//       model: "mistralai/mistral-7b-instruct",
+//       messages: [
+//         { role: "system", content: "You are a helpful assistant." },
+//         { role: "user", content: userText }
+//       ]
+//     })
+//   });
+
+//   const data = await response.json();
+//   removeLastMessage();
+
+//   if (data.choices && data.choices.length > 0) {
+//     const reply = data.choices[0].message.content;
+//     appendMessage("ai", reply);
+//   } else {
+//     appendMessage("ai", "No reply. Try again.");
+//   }
+// }
+
+// function appendMessage(role, text) {
+//   const msg = document.createElement("div");
+//   msg.className = `message ${role}`;
+//   msg.textContent = text;
+//   chatBox.appendChild(msg);
+//   chatBox.scrollTop = chatBox.scrollHeight;
+// }
+
+// function removeLastMessage() {
+//   const last = chatBox.lastChild;
+//   if (last) chatBox.removeChild(last);
+// }
+
+
+let messageId = 0;
+const API_KEY = "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";
+
+// Initialize chat
+document.addEventListener('DOMContentLoaded', function() {
+    const chatBox = document.getElementById('chat-box');
+    const userInput = document.getElementById('user-input');
+    const sendButton = document.getElementById('send-button');
+    
+    // Set initial timestamp for welcome message
+    updateTimestamp();
+    
+    // Add event listeners
+    userInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            sendMessage();
         }
-    }
-
-    async processWithN8N(query) {
-        const response = await fetch(this.n8nWebhookUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                query,
-                mode: 'study_assistant',
-                guidelines: {
-                    no_direct_answers: true,
-                    provide_hints: true,
-                    encourage_thinking: true,
-                    prevent_plagiarism: true
-                }
-            })
-        });
-
-        if (!response.ok) {
-            throw new Error('N8N webhook failed');
-        }
-
-        const data = await response.json();
-        return data.response || data.message || 'I apologize, but I couldn\'t process your request right now.';
-    }
-
-    async processWithGemini(query) {
-        if (!this.geminiApiKey || this.geminiApiKey.trim() === '') {
-            return this.getFallbackResponse(query);
-        }
-
-        const prompt = this.buildStudyAssistantPrompt(query);
-        
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${this.geminiApiKey}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                contents: [{
-                    parts: [{
-                        text: prompt
-                    }]
-                }],
-                generationConfig: {
-                    temperature: 0.7,
-                    topK: 40,
-                    topP: 0.95,
-                    maxOutputTokens: 1024,
-                }
-            })
-        });
-
-        if (!response.ok) {
-            throw new Error('Gemini API failed');
-        }
-
-        const data = await response.json();
-        return data.candidates?.[0]?.content?.parts?.[0]?.text || this.getFallbackResponse(query);
-    }
-
-    buildStudyAssistantPrompt(query) {
-        return `You are a study assistant designed to help students learn without enabling plagiarism. Your role is to:
-
-1. NEVER provide direct answers or complete solutions
-2. Give hints, clues, and guiding questions instead
-3. Encourage critical thinking and step-by-step reasoning
-4. Explain concepts and methodologies rather than giving final answers
-5. Suggest study strategies and learning approaches
-6. Help students understand the "why" behind concepts
-
-Student's question: "${query}"
-
-Respond with helpful hints and guidance that will lead the student to discover the answer themselves. Focus on teaching the underlying concepts and thinking processes. If this appears to be a homework question, provide study guidance rather than solutions.
-
-Your response should be educational, encouraging, and focused on learning rather than providing ready-made answers.`;
-    }
-
-    getFallbackResponse(query) {
-        // Analyze the query to provide contextual fallback responses
-        const lowerQuery = query.toLowerCase();
-        
-        if (lowerQuery.includes('math') || lowerQuery.includes('equation') || lowerQuery.includes('calculate')) {
-            return `I can see you're working on a math problem! Instead of giving you the answer, let me guide you:
-
-1. What type of problem is this? (algebra, geometry, calculus, etc.)
-2. What formulas or concepts might be relevant?
-3. Can you break the problem into smaller steps?
-4. What information are you given, and what do you need to find?
-
-Try working through these questions, and feel free to ask about specific concepts you're unsure about!`;
-        }
-        
-        if (lowerQuery.includes('essay') || lowerQuery.includes('write') || lowerQuery.includes('paper')) {
-            return `For writing assignments, I can help you develop your ideas:
-
-1. What's your main topic or thesis?
-2. What key points do you want to make?
-3. What evidence or examples support your arguments?
-4. How can you organize your thoughts logically?
-
-I can help you brainstorm, outline, or understand writing techniques, but the ideas and words should be your own!`;
-        }
-        
-        if (lowerQuery.includes('science') || lowerQuery.includes('experiment') || lowerQuery.includes('hypothesis')) {
-            return `For science questions, let's think about the scientific method:
-
-1. What phenomenon are you trying to understand?
-2. What do you already know about this topic?
-3. What variables might be involved?
-4. How could you test or investigate this?
-
-I can help explain scientific concepts and guide your thinking process!`;
-        }
-        
-        return `I'm here to help guide your learning! To give you the best hints and guidance:
-
-1. Can you tell me more about what specific concept you're struggling with?
-2. What have you tried so far?
-3. What part is confusing you the most?
-
-Remember, I'm designed to help you learn and think through problems rather than provide direct answers. This way, you'll truly understand the material!`;
-    }
-}
-
-// Chat Interface Class
-class ChatInterface {
-    constructor() {
-        this.aiService = new AIService();
-        this.messages = [];
-        this.isLoading = false;
-        
-        this.initializeElements();
-        this.setupEventListeners();
-        this.addInitialMessage();
-    }
-
-    initializeElements() {
-        this.messagesContainer = document.getElementById('messagesContainer');
-        this.messageInput = document.getElementById('messageInput');
-        this.sendButton = document.getElementById('sendButton');
-        this.loadingMessage = document.getElementById('loadingMessage');
-        this.configModal = document.getElementById('configModal');
-        this.configButton = document.getElementById('configButton');
-        this.closeModal = document.getElementById('closeModal');
-        this.saveConfig = document.getElementById('saveConfig');
-        this.n8nUrlInput = document.getElementById('n8nUrl');
-        this.geminiKeyInput = document.getElementById('geminiKey');
-    }
-
-    setupEventListeners() {
-        this.sendButton.addEventListener('click', () => this.handleSendMessage());
-        this.messageInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                this.handleSendMessage();
-            }
-        });
-
-        // Configuration modal
-        this.configButton.addEventListener('click', () => this.openConfigModal());
-        this.closeModal.addEventListener('click', () => this.closeConfigModal());
-        this.saveConfig.addEventListener('click', () => this.saveConfiguration());
-        
-        // Close modal when clicking outside
-        window.addEventListener('click', (e) => {
-            if (e.target === this.configModal) {
-                this.closeConfigModal();
-            }
-        });
-
-        // Load saved configuration
-        this.loadConfiguration();
-    }
-
-    addInitialMessage() {
-        const timestamp = new Date().toLocaleTimeString();
-        document.getElementById('initialTimestamp').textContent = timestamp;
-    }
-
-    async handleSendMessage() {
-        const message = this.messageInput.value.trim();
-        if (!message || this.isLoading) return;
-
-        // Add user message
-        this.addMessage('user', message);
-        this.messageInput.value = '';
-        this.setLoading(true);
-
-        try {
-            const response = await this.aiService.processStudentQuery(message);
-            this.addMessage('assistant', response, true);
-        } catch (error) {
-            this.addMessage('assistant', "I'm sorry, I encountered an error while processing your request. Please try again.", true);
-        } finally {
-            this.setLoading(false);
-        }
-    }
-
-    addMessage(type, content, isHint = false) {
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `message ${type}-message`;
-        
-        const timestamp = new Date().toLocaleTimeString();
-        
-        messageDiv.innerHTML = `
-            <div class="message-content">
-                <div class="avatar ${type}-avatar">
-                    <i class="fas ${type === 'user' ? 'fa-user' : 'fa-robot'}"></i>
-                </div>
-                <div class="message-bubble ${type}-bubble">
-                    ${isHint && type === 'assistant' ? `
-                        <div class="hint-indicator">
-                            <i class="fas fa-lightbulb"></i>
-                            <span>Study Hint</span>
-                        </div>
-                    ` : ''}
-                    <p>${content}</p>
-                    <span class="timestamp">${timestamp}</span>
-                </div>
-            </div>
-        `;
-
-        this.messagesContainer.appendChild(messageDiv);
-        this.scrollToBottom();
-    }
-
-    setLoading(loading) {
-        this.isLoading = loading;
-        this.sendButton.disabled = loading;
-        this.messageInput.disabled = loading;
-        this.loadingMessage.style.display = loading ? 'flex' : 'none';
-        
-        if (loading) {
-            this.scrollToBottom();
-        }
-    }
-
-    scrollToBottom() {
-        setTimeout(() => {
-            this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
-        }, 100);
-    }
-
-    openConfigModal() {
-        this.configModal.style.display = 'block';
-    }
-
-    closeConfigModal() {
-        this.configModal.style.display = 'none';
-    }
-
-    loadConfiguration() {
-        const n8nUrl = localStorage.getItem('n8nWebhookUrl') || '';
-        const geminiKey = localStorage.getItem('geminiApiKey') || '';
-        
-        this.n8nUrlInput.value = n8nUrl;
-        this.geminiKeyInput.value = geminiKey;
-    }
-
-    saveConfiguration() {
-        const n8nUrl = this.n8nUrlInput.value.trim();
-        const geminiKey = this.geminiKeyInput.value.trim();
-        
-        this.aiService.updateConfig(n8nUrl, geminiKey);
-        this.closeConfigModal();
-        
-        // Show success message
-        this.addMessage('assistant', 'Configuration saved successfully! You can now use the AI assistant with your settings.', true);
-    }
-}
-
-// Initialize the application when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    new ChatInterface();
+    });
+    
+    userInput.addEventListener('input', function() {
+        const hasText = this.value.trim().length > 0;
+        sendButton.disabled = !hasText;
+    });
+    
+    // Initial button state
+    sendButton.disabled = true;
 });
+
+async function sendMessage() {
+    const userInput = document.getElementById('user-input');
+    const message = userInput.value.trim();
+    
+    if (message === '') return;
+    
+    // Add user message
+    addMessage(message, true);
+    
+    // Clear input
+    userInput.value = '';
+    document.getElementById('send-button').disabled = true;
+    
+    // Show typing indicator
+    showTypingIndicator();
+    
+    // Check if this is an assignment-related query
+    const assignmentResponse = handleAssignmentQuery(message);
+    if (assignmentResponse) {
+        hideTypingIndicator();
+        addMessage(assignmentResponse, false);
+        return;
+    }
+    
+    try {
+        const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${API_KEY}`,
+                "HTTP-Referer": "http://localhost",
+            },
+            body: JSON.stringify({
+                model: "mistralai/mistral-7b-instruct",
+                messages: [
+                    { role: "system", content: "You are a helpful assistant." },
+                    { role: "user", content: message+"(the above query is from a student. Generate educational response student,give straight answers with no complications.)" }
+                ]
+            })
+        });
+
+        const data = await response.json();
+        hideTypingIndicator();
+
+        if (data.choices && data.choices.length > 0) {
+            const reply = data.choices[0].message.content;
+            addMessage(reply, false);
+        } else {
+            addMessage("Sorry, I couldn't process your request. Please try again.", false);
+        }
+    } catch (error) {
+        hideTypingIndicator();
+        addMessage("Connection error. Please check your internet and try again.", false);
+    }
+}
+
+function addMessage(text, isUser) {
+    const chatBox = document.getElementById('chat-box');
+    const messageDiv = document.createElement('div');
+    const timestamp = getCurrentTime();
+    
+    messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+    messageDiv.innerHTML = `
+        <div class="message-bubble">
+            <p>${escapeHtml(text)}</p>
+            <span class="timestamp">${timestamp}</span>
+        </div>
+    `;
+    
+    chatBox.appendChild(messageDiv);
+    scrollToBottom();
+}
+
+function showTypingIndicator() {
+    const typingIndicator = document.getElementById('typing-indicator');
+    typingIndicator.classList.remove('hidden');
+    scrollToBottom();
+}
+
+function hideTypingIndicator() {
+    const typingIndicator = document.getElementById('typing-indicator');
+    typingIndicator.classList.add('hidden');
+}
+
+
+function getCurrentTime() {
+    const now = new Date();
+    return now.toLocaleTimeString([], { 
+        hour: '2-digit', 
+        minute: '2-digit',
+        hour12: true 
+    });
+}
+
+function updateTimestamp() {
+    const timestamp = document.querySelector('.timestamp');
+    if (timestamp) {
+        timestamp.textContent = getCurrentTime();
+    }
+}
+
+function scrollToBottom() {
+    const chatBox = document.getElementById('chat-box');
+    setTimeout(() => {
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }, 100);
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// Handle window resize
+window.addEventListener('resize', function() {
+    scrollToBottom();
+});
+
+// Auto-focus input on page load
+window.addEventListener('load', function() {
+    document.getElementById('user-input').focus();
+});
+
+// Assignment handling functions
+function handleAssignmentQuery(message) {
+    const lowerMessage = message.toLowerCase();
+    
+    // Check for assignment-related keywords
+    const assignmentKeywords = [
+        'assignment', 'homework', 'task', 'project', 'gravitation', 'organic', 
+        'integration', 'desh ko maya', 'soft storm', 'physics', 'chemistry', 
+        'calculus', 'nepali', 'english', 'what is', 'explain', 'help with'
+    ];
+    
+    const isAssignmentQuery = assignmentKeywords.some(keyword => 
+        lowerMessage.includes(keyword)
+    );
+    
+    if (!isAssignmentQuery) {
+        return null;
+    }
+    
+    // Search for specific assignment
+    const assignment = searchAssignment(message);
+    
+    if (assignment) {
+        return formatAssignmentResponse(assignment);
+    }
+    
+    // If no specific assignment found, provide general assignment info
+    if (lowerMessage.includes('assignment') || lowerMessage.includes('homework')) {
+        return formatAllAssignmentsResponse();
+    }
+    
+    return null;
+}
+
+function formatAssignmentResponse(assignment) {
+    return `📚 **${assignment.title} Assignment**
+
+**Subject:** ${assignment.subject}
+**Teacher:** ${assignment.teacher}
+**Due Date:** ${assignment.dueDate}
+**Difficulty:** ${assignment.difficulty}
+**Estimated Time:** ${assignment.estimatedTime}
+
+**Description:**
+${assignment.description}
+
+**Assignment Goals:**
+${assignment.goals.map(goal => `• ${goal}`).join('\n')}
+
+**Topics Covered:**
+${assignment.topics.map(topic => `• ${topic}`).join('\n')}
+
+**Tips for Success:**
+• Start early to manage your time effectively
+• Review the relevant textbook chapters
+• Practice similar problems before attempting the assignment
+• Don't hesitate to ask your teacher (${assignment.teacher}) for clarification
+
+Would you like me to help you with any specific part of this assignment?`;
+}
+
+function formatAllAssignmentsResponse() {
+    const allAssignments = getAllAssignments();
+    const pendingAssignments = allAssignments.filter(assignment => 
+        !assignment.dueDate.toLowerCase().includes('completed')
+    );
+    
+    let response = `📋 **Your Current Assignments**\n\n`;
+    
+    if (pendingAssignments.length === 0) {
+        response += "Great job! You have no pending assignments. 🎉";
+    } else {
+        pendingAssignments.forEach(assignment => {
+            response += `**${assignment.title}** (${assignment.subject})\n`;
+            response += `Due: ${assignment.dueDate}\n`;
+            response += `Teacher: ${assignment.teacher}\n\n`;
+        });
+        
+        response += `You can ask me about any specific assignment by name (e.g., "Tell me about the gravitation assignment" or "Help with organic chemistry assignment").`;
+    }
+    
+    return response;
+}

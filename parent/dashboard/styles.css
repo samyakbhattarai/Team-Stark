@@ -20,7 +20,7 @@ body {
 /* Sidebar Styles */
 .sidebar {
     width: 280px;
-    background: linear-gradient(180deg, #1e293b 0%, #334155 100%);
+    background-color: #3b82f6;
     color: white;
     position: fixed;
     height: 100vh;

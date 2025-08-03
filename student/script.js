@@ -142,6 +142,10 @@ class SidebarNavigation {
             case 'Result':
                 this.loadPage('../arpa/Team-Stark/index.html', contentWrapper);
                 break;
+            case 'Leave':
+                console.log('Loading leave.html...');
+                this.loadPage('leave.html', contentWrapper);
+                break;
             case 'More':
                 this.loadPage('../admin/index.html', contentWrapper);
                 break;

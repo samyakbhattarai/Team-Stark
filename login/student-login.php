@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Student Login</title>
+    <style>
+        .alert-box {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #dc2626;
+            color: white;
+            padding: 16px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+            z-index: 9999;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            max-width: 300px;
+            font-weight: 500;
+            border: 1px solid #b91c1c;
+        }
+        
+        .alert-box.show {
+            transform: translateX(0);
+        }
+        
+        .alert-box .close-btn {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 0;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .alert-box .close-btn:hover {
+            opacity: 0.8;
+        }
+        
+        /* Ensure alert is visible */
+        #alertBox {
+            display: block !important;
+        }
+        
+        /* For testing - make alert visible by default */
+        .alert-box {
+            transform: translateX(0) !important;
+            opacity: 1 !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Alert Box for Error Messages -->
+    <div id="alertBox" class="alert-box">
+        <button class="close-btn" onclick="hideAlert()">&times;</button>
+        <div id="alertMessage">Alert system is working! Click × to close.</div>
+    </div>
+    
+    <section class="bg-gray-50 min-h-screen flex items-center justify-center p-4 relative">
+        
+        <!-- Back Button -->
+        <button onclick="window.location.href='../profile-select/index.html'" class="absolute top-4 left-4 bg-[#18008f] text-white px-4 py-2 rounded-lg hover:bg-[#14006f] transition-colors duration-200 flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+            Back
+        </button>
+        
+        <div class="bg-gray-100 flex flex-col lg:flex-row rounded-2xl shadow-lg max-w-5xl w-full p-5 items-center">
+            
+            <!-- Login Form -->
+            <div class="w-full lg:w-1/2 px-4 lg:px-8 py-8 lg:py-0">
+                <h1 class="font-bold text-2xl lg:text-3xl text-[#18008f] text-center lg:text-left">STUDENT PANEL</h1>
+                <h2 class="font-bold text-lg lg:text-xl text-[#b0a7df] text-center lg:text-left mb-6">LOGIN</h2>
+
+                <form id="loginForm" class="flex flex-col gap-4">
+                    <input
+                        class="p-3 lg:p-2 mt-4 lg:mt-8 rounded-xl border w-full"
+                        type="text"
+                        name="username"
+                        placeholder="Username"
+                        required
+                    />
+                    <input
+                        class="p-3 lg:p-2 rounded-xl border w-full"
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        required
+                    />
+                    <button type="submit" class="bg-[#18008f] rounded-xl text-white py-3 lg:py-4 w-full">LOGIN</button>
+                    <div class="text-center">
+                        <a href="#" class="text-[#18008f] text-sm hover:underline">Forgot Password? Contact admin</a>
+                    </div>
+                    <div class="text-center mt-2">
+                        <button type="button" onclick="showAlert('Test alert - this should appear in top-right corner')" class="text-[#18008f] text-sm hover:underline">Test Alert</button>
+                        <button type="button" onclick="testCredentials()" class="text-[#18008f] text-sm hover:underline ml-2">Test Wrong Credentials</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Image -->
+            <div class="w-full lg:w-1/2 hidden sm:block">
+                <img class="rounded-2xl w-full h-auto" src="13.jpg" alt="Login illustration" />
+            </div>
+        </div>
+    </section>
+    
+    <script>
+        // Student credentials
+        const studentCredentials = {
+            'samyak-bhattarai': 'student123',
+            'francis-panday': 'student456',
+            'arpanwagle': 'student789'
+        };
+
+        // Student full names mapping
+        const studentNames = {
+            'samyak-bhattarai': 'Samyak Bhattarai',
+            'francis-panday': 'Francis Panday',
+            'arpanwagle': 'Arpan Wagle'
+        };
+
+        // Function to show alert
+        function showAlert(message) {
+            console.log('showAlert called with:', message);
+            const alertBox = document.getElementById('alertBox');
+            const alertMessage = document.getElementById('alertMessage');
+            
+            if (!alertBox || !alertMessage) {
+                console.error('Alert elements not found');
+                return;
+            }
+            
+            alertMessage.textContent = message;
+            alertBox.classList.add('show');
+            console.log('Alert should be visible now');
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                hideAlert();
+            }, 5000);
+        }
+        
+        // Function to hide alert
+        function hideAlert() {
+            const alertBox = document.getElementById('alertBox');
+            alertBox.classList.remove('show');
+        }
+        
+        // Test function for wrong credentials
+        function testCredentials() {
+            showAlert('Incorrect username or password');
+        }
+        
+        // Handle form submission
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('loginForm');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    console.log('Form submitted');
+                    
+                    const username = this.querySelector('input[name="username"]').value;
+                    const password = this.querySelector('input[name="password"]').value;
+                    
+                    console.log('Username:', username);
+                    console.log('Password:', password);
+                    
+                    // Check credentials
+                    if (studentCredentials[username] && studentCredentials[username] === password) {
+                        console.log('Valid credentials - redirecting');
+                        // Store user info in localStorage for dashboard access
+                        localStorage.setItem('user_type', 'student');
+                        localStorage.setItem('username', username);
+                        localStorage.setItem('full_name', studentNames[username] || username);
+                        localStorage.setItem('logged_in', 'true');
+                        
+                        // Valid credentials - redirect to parent dashboard
+                        window.location.href = '../student/index.html';
+                    } else {
+                        console.log('Invalid credentials - showing alert');
+                        // Invalid credentials - show alert
+                        showAlert('Incorrect username or password');
+                    }
+                });
+            }
+        });
+        
+        // Test alert on page load
+        console.log('Script loaded');
+        
+        // Test alert on page load
+        setTimeout(() => {
+            showAlert('Page loaded - alert system is working!');
+        }, 2000);
+    </script>
+</body>
+</html> 
