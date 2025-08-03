@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>More Features</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f8fafc;
+            color: #1f2937;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .section {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Pomodoro Clock Styles */
+        .pomodoro-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .pomodoro-header {
+            text-align: center;
+            color: #7c3aed;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .timer-circle {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .timer-svg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .timer-bg {
+            fill: none;
+            stroke: #fecaca;
+            stroke-width: 8;
+        }
+
+        .timer-progress {
+            fill: none;
+            stroke: #ef4444;
+            stroke-width: 8;
+            stroke-linecap: round;
+            stroke-dasharray: 628;
+            stroke-dashoffset: 157;
+            transition: stroke-dashoffset 0.3s ease;
+        }
+
+        .timer-display {
+            text-align: center;
+            z-index: 10;
+        }
+
+        .timer-time {
+            font-size: 48px;
+            font-weight: 700;
+            color: #7c3aed;
+            margin-bottom: 8px;
+        }
+
+        .timer-label {
+            font-size: 16px;
+            color: #6b7280;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .timer-dots {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .timer-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #fecaca;
+        }
+
+        .timer-dot.active {
+            background: #ef4444;
+        }
+
+        .timer-control {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: #ef4444;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+
+        .timer-control:hover {
+            background: #dc2626;
+        }
+
+        .timer-reset {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #6b7280;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+            margin-left: 12px;
+        }
+
+        .timer-reset:hover {
+            background: #4b5563;
+        }
+
+        .timer-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Todo List Styles */
+        .todo-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .todo-input {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .todo-input input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .todo-input input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        .todo-input button {
+            padding: 12px 20px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .todo-input button:hover {
+            background: #2563eb;
+        }
+
+        .todo-list {
+            list-style: none;
+        }
+
+        .todo-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .todo-item:last-child {
+            border-bottom: none;
+        }
+
+        .todo-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #d1d5db;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .todo-checkbox.checked {
+            background: #10b981;
+            border-color: #10b981;
+        }
+
+        .todo-text {
+            flex: 1;
+            font-size: 14px;
+            color: #374151;
+        }
+
+        .todo-text.completed {
+            text-decoration: line-through;
+            color: #9ca3af;
+        }
+
+        .todo-delete {
+            color: #ef4444;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: background 0.3s ease;
+        }
+
+        .todo-delete:hover {
+            background: #fef2f2;
+        }
+
+        /* Project Stats Styles */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-card.completed {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .stat-card.pending {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        .stat-card.overdue {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .stat-icon {
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .todo-container {
+                grid-template-columns: 1fr;
+            }
+
+            .timer-circle {
+                width: 240px;
+                height: 240px;
+            }
+
+            .timer-time {
+                font-size: 36px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timer-circle {
+                width: 200px;
+                height: 200px;
+            }
+
+            .timer-time {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Pomodoro Clock Section -->
+        <div class="section">
+            <div class="section-title">
+                <i class="fas fa-clock"></i>
+                Pomodoro Timer
+            </div>
+            <div class="pomodoro-container">
+                <div class="pomodoro-header">Focus on your task</div>
+                <div class="timer-circle">
+                    <svg class="timer-svg">
+                        <circle class="timer-bg" cx="140" cy="140" r="100"></circle>
+                        <circle class="timer-progress" cx="140" cy="140" r="100" id="timerProgress"></circle>
+                    </svg>
+                    <div class="timer-display">
+                        <div class="timer-time" id="timerDisplay">25:00</div>
+                        <div class="timer-label">
+                            <span>Work</span>
+                            <i class="fas fa-redo"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="timer-dots">
+                    <div class="timer-dot active"></div>
+                    <div class="timer-dot active"></div>
+                    <div class="timer-dot active"></div>
+                    <div class="timer-dot active"></div>
+                    <div class="timer-dot"></div>
+                </div>
+                <div class="timer-controls">
+                    <button class="timer-control" id="timerControl">
+                        <i class="fas fa-pause"></i>
+                    </button>
+                    <button class="timer-reset" id="timerReset" title="Reset Timer">
+                        <i class="fas fa-redo"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Todo List Section -->
+        <div class="section">
+            <div class="section-title">
+                <i class="fas fa-tasks"></i>
+                Todo List
+            </div>
+            <div class="todo-container">
+                <div>
+                    <div class="todo-input">
+                        <input type="text" id="todoInput" placeholder="Add a new task...">
+                        <button onclick="addTodo()">Add</button>
+                    </div>
+                    <ul class="todo-list" id="todoList">
+                        <li class="todo-item">
+                            <div class="todo-checkbox checked" onclick="toggleTodo(this)">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span class="todo-text completed">Complete project documentation</span>
+                            <i class="fas fa-trash todo-delete" onclick="deleteTodo(this)"></i>
+                        </li>
+                        <li class="todo-item">
+                            <div class="todo-checkbox" onclick="toggleTodo(this)"></div>
+                            <span class="todo-text">Review assignment submissions</span>
+                            <i class="fas fa-trash todo-delete" onclick="deleteTodo(this)"></i>
+                        </li>
+                        <li class="todo-item">
+                            <div class="todo-checkbox" onclick="toggleTodo(this)"></div>
+                            <span class="todo-text">Prepare for next week's lessons</span>
+                            <i class="fas fa-trash todo-delete" onclick="deleteTodo(this)"></i>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="margin-bottom: 16px; color: #374151;">Quick Actions</h3>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <button style="padding: 12px; background: #f3f4f6; border: none; border-radius: 8px; text-align: left; cursor: pointer; transition: background 0.3s ease;" onmouseover="this.style.background='#e5e7eb'" onmouseout="this.style.background='#f3f4f6'">
+                            <i class="fas fa-calendar" style="margin-right: 8px; color: #6b7280;"></i>
+                            Schedule meeting
+                        </button>
+                        <button style="padding: 12px; background: #f3f4f6; border: none; border-radius: 8px; text-align: left; cursor: pointer; transition: background 0.3s ease;" onmouseover="this.style.background='#e5e7eb'" onmouseout="this.style.background='#f3f4f6'">
+                            <i class="fas fa-file-alt" style="margin-right: 8px; color: #6b7280;"></i>
+                            Create report
+                        </button>
+                        <button style="padding: 12px; background: #f3f4f6; border: none; border-radius: 8px; text-align: left; cursor: pointer; transition: background 0.3s ease;" onmouseover="this.style.background='#e5e7eb'" onmouseout="this.style.background='#f3f4f6'">
+                            <i class="fas fa-envelope" style="margin-right: 8px; color: #6b7280;"></i>
+                            Send notifications
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Assignment Statistics Section -->
+        <div class="section">
+            <div class="section-title">
+                <i class="fas fa-chart-bar"></i>
+                Assignment Statistics
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card completed">
+                    <div class="stat-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="stat-number">18</div>
+                    <div class="stat-label">Total Submitted</div>
+                </div>
+                <div class="stat-card pending">
+                    <div class="stat-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-number">85.2%</div>
+                    <div class="stat-label">Average Grade</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-number" id="totalStudyTime">12h 30m</div>
+                    <div class="stat-label">Total Time Studied</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Pomodoro Timer Functionality
+        let timerRunning = false;
+        let timeLeft = 25 * 60; // 25 minutes in seconds
+        let timerInterval;
+        let totalStudyTime = 0; // Track total study time in seconds
+        let completedSessions = 0; // Track completed Pomodoro sessions
+
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timerDisplay').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Update progress circle
+            const progress = ((25 * 60 - timeLeft) / (25 * 60)) * 628;
+            document.getElementById('timerProgress').style.strokeDashoffset = 628 - progress;
+        }
+
+        function toggleTimer() {
+            const controlBtn = document.getElementById('timerControl');
+            const icon = controlBtn.querySelector('i');
+            
+            if (timerRunning) {
+                clearInterval(timerInterval);
+                timerRunning = false;
+                icon.className = 'fas fa-play';
+            } else {
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    totalStudyTime++; // Track study time
+                    updateTimer();
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        timerRunning = false;
+                        icon.className = 'fas fa-play';
+                        completedSessions++;
+                        alert('Pomodoro session completed!');
+                        timeLeft = 25 * 60;
+                        updateTimer();
+                        updateStudyStats();
+                    }
+                }, 1000);
+                timerRunning = true;
+                icon.className = 'fas fa-pause';
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timerRunning = false;
+            timeLeft = 25 * 60;
+            updateTimer();
+            
+            const controlBtn = document.getElementById('timerControl');
+            const icon = controlBtn.querySelector('i');
+            icon.className = 'fas fa-play';
+        }
+
+        function updateStudyStats() {
+            const hours = Math.floor(totalStudyTime / 3600);
+            const minutes = Math.floor((totalStudyTime % 3600) / 60);
+            const timeString = `${hours}h ${minutes}m`;
+            document.getElementById('totalStudyTime').textContent = timeString;
+        }
+
+        document.getElementById('timerControl').addEventListener('click', toggleTimer);
+        document.getElementById('timerReset').addEventListener('click', resetTimer);
+
+        // Todo List Functionality
+        function addTodo() {
+            const input = document.getElementById('todoInput');
+            const text = input.value.trim();
+            
+            if (text) {
+                const todoList = document.getElementById('todoList');
+                const li = document.createElement('li');
+                li.className = 'todo-item';
+                li.innerHTML = `
+                    <div class="todo-checkbox" onclick="toggleTodo(this)"></div>
+                    <span class="todo-text">${text}</span>
+                    <i class="fas fa-trash todo-delete" onclick="deleteTodo(this)"></i>
+                `;
+                todoList.appendChild(li);
+                input.value = '';
+            }
+        }
+
+        function toggleTodo(checkbox) {
+            const text = checkbox.nextElementSibling;
+            checkbox.classList.toggle('checked');
+            text.classList.toggle('completed');
+            
+            if (checkbox.classList.contains('checked')) {
+                checkbox.innerHTML = '<i class="fas fa-check"></i>';
+            } else {
+                checkbox.innerHTML = '';
+            }
+        }
+
+        function deleteTodo(deleteBtn) {
+            deleteBtn.parentElement.remove();
+        }
+
+        // Enter key to add todo
+        document.getElementById('todoInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addTodo();
+            }
+        });
+
+        // Initialize timer display and stats
+        updateTimer();
+        updateStudyStats();
+    </script>
+</body>
+</html> 

@@ -140,10 +140,14 @@ class SidebarNavigation {
                 this.loadPage('../assistant/index.html', contentWrapper);
                 break;
             case 'Result':
-                this.loadPage('../arpa/Team-Stark/index.html', contentWrapper);
+                this.loadPage('../result/index.html', contentWrapper);
+                break;
+            case 'Leave':
+                console.log('Loading leave.html...');
+                this.loadPage('leave.html', contentWrapper);
                 break;
             case 'More':
-                this.loadPage('../admin/index.html', contentWrapper);
+                this.loadPage('../more/more.html', contentWrapper);
                 break;
             default:
                 this.loadPage('profile.html', contentWrapper);
