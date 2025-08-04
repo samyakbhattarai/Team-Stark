@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     window.location.href = '../login/parent-login.html';
                     break;
                 case 'Admin':
-                    window.location.href = '../admin/index.html';
+                    window.location.href = '../login/admin-login.html';
                     break;
                 default:
                     window.location.href = '../login/index.html';

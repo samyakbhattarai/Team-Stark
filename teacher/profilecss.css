@@ -1,0 +1,202 @@
+/* ====== Base styles ====== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+body {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #1e293b;
+  margin: 0;
+  min-height: 100vh;
+}
+
+/* Overlay with subtle glass effect */
+.overlay {
+  background: rgba(255 255 255 / 0.95);
+  min-height: 100vh;
+  padding: 3rem 2rem 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+}
+
+/* Main container */
+.container {
+  max-width: 900px;
+  width: 100%;
+  background: #fff;
+  border-radius: 15px;
+  padding: 3rem 3.5rem;
+  box-shadow:
+    0 10px 30px rgba(59, 130, 246, 0.15),
+    0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease;
+}
+
+.container:hover {
+  box-shadow:
+    0 15px 40px rgba(59, 130, 246, 0.3),
+    0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Back link styling */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+.back-link:hover {
+  border-color: #2563eb;
+}
+
+/* Profile header */
+.profile-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+/* Oval avatar */
+.profile-avatar {
+  width: 140px;
+  height: 85px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto 1.25rem;
+  box-shadow: 0 5px 15px rgba(37, 99, 235, 0.4);
+  border: 4px solid #3b82f6;
+  background: #94a3b8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.profile-avatar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.6);
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Profile heading */
+.profile-header h1 {
+  font-weight: 700;
+  font-size: 2.25rem;
+  color: #1e293b;
+  margin-bottom: 0.25rem;
+}
+
+.profile-header p {
+  font-weight: 500;
+  color: #475569;
+  font-size: 1rem;
+}
+
+/* Form section */
+.form-section {
+  margin-bottom: 3rem;
+}
+
+.section-title {
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  border-bottom: 3px solid #2563eb;
+  padding-bottom: 0.5rem;
+  color: #2563eb;
+}
+
+/* Form rows and groups */
+.form-row {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+}
+
+.form-group.full-width {
+  flex: 1 1 100%;
+}
+
+/* Labels */
+.form-label {
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  color: #334155;
+  font-size: 0.95rem;
+}
+
+/* Inputs, selects, textarea */
+.form-input,
+.form-select,
+.form-textarea {
+  padding: 0.75rem 1rem;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #1e293b;
+  background-color: #f8fafc;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  font-family: inherit;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 6px rgba(37, 99, 235, 0.5);
+  background-color: #fff;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+}
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+  }
+
+  .container {
+    padding: 2rem 2rem 3rem;
+  }
+
+  .profile-avatar {
+    width: 110px;
+    height: 65px;
+  }
+
+  .profile-header h1 {
+    font-size: 1.75rem;
+  }
+
+  .section-title {
+    font-size: 1.25rem;
+  }
+
+
+}

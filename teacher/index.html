@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uniglobe MIS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header with Profile -->
+    <header class="header">
+        <div class="header-left">
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h1 class="header-title">Dashboard</h1>
+        </div>
+        <div class="header-right">
+            <div class="profile-section" id="profileSection">
+                <img src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&dpr=1" alt="Profile" class="profile-avatar">
+                <div class="profile-info">
+                    <span class="profile-name" id="profileName">Loading...</span>
+                    <span class="profile-role" id="profileRole">User</span>
+                </div>
+                <i class="fas fa-chevron-down" style="font-size: 12px; color: #64748b;"></i>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <a href="#" class="dropdown-item"><i class="fas fa-user"></i> Profile</a>
+                    <a href="#" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
+                    <a href="#" class="dropdown-item logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-content">
+            <ul class="nav-menu">
+                <li class="nav-item active">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-home nav-icon"></i>
+                        <span class="nav-text">Home</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-tachometer-alt nav-icon"></i>
+                        <span class="nav-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-tasks nav-icon"></i>
+                        <span class="nav-text">Assignment</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-robot nav-icon"></i>
+                        <span class="nav-text">AI Assistant</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-chart-bar nav-icon"></i>
+                        <span class="nav-text">Course</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-calendar-alt nav-icon"></i>
+                        <span class="nav-text">Leave</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-ellipsis-h nav-icon"></i>
+                        <span class="nav-text">More</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="main-content" id="mainContent">
+        <div class="content-wrapper">
+            </div>
+        </div>
+    </main>
+
+    <!-- Overlay for mobile -->
+    <div class="overlay" id="overlay"></div>
+
+    <script src="script.js"></script>
+    <script>
+        // Load user data from localStorage
+        function loadUserData() {
+            const fullName = localStorage.getItem('full_name') || 'User';
+            const userType = localStorage.getItem('user_type') || 'user';
+            
+            // Update profile name
+            document.getElementById('profileName').textContent = fullName;
+            
+            // Update role based on user type
+            let role = 'User';
+            if (userType === 'student') {
+                role = 'Student';
+            } else if (userType === 'teacher') {
+                role = 'Teacher';
+            } else if (userType === 'parent') {
+                role = 'Parent';
+            } else if (userType === 'admin') {
+                role = 'Admin';
+            }
+            
+            document.getElementById('profileRole').textContent = role;
+        }
+        
+        // Dropdown functionality
+        function toggleDropdown() {
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            dropdownMenu.classList.toggle('show');
+        }
+
+        function closeDropdown() {
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            dropdownMenu.classList.remove('show');
+        }
+
+        // Logout function
+        function logout() {
+            // Clear localStorage
+            localStorage.removeItem('user_type');
+            localStorage.removeItem('username');
+            localStorage.removeItem('full_name');
+            localStorage.removeItem('logged_in');
+            
+            // Redirect to profile select page
+            window.location.href = '../profile-select/index.html';
+        }
+        
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserData();
+            
+            // Add click event to profile section
+            const profileSection = document.getElementById('profileSection');
+            profileSection.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleDropdown();
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!profileSection.contains(e.target)) {
+                    closeDropdown();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,273 @@
+/* Reset & Base Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+   font-family: 'Libertinus Serif', serif;
+    line-height: 1.6;
+    background-color: #ffffff;
+    color: #1e3a8a;
+}
+
+a {
+    color: #2563eb;
+    text-decoration: none;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* Header */
+.header {
+    background-color: #2563eb;
+    color: white;
+    padding: 20px 0;
+}
+
+.header .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header .logo i {
+    font-size: 28px;
+}
+
+.header h1 {
+    font-size: 24px;
+}
+
+/* Sections */
+.section {
+    margin: 40px 0;
+}
+
+.section-header {
+    margin-bottom: 20px;
+}
+
+.section-header h2 {
+    color: #1e3a8a;
+    font-size: 22px;
+}
+
+.section-subtitle {
+    color: #4b5563;
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.stat-card {
+    background-color: #eff6ff;
+    border-left: 6px solid #2563eb;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.stat-icon i {
+    font-size: 24px;
+    color: #2563eb;
+}
+
+.stat-content h3 {
+    font-size: 20px;
+    color: #1e3a8a;
+}
+
+.stat-content p {
+    font-size: 14px;
+    color: #475569;
+}
+
+/* Course Tabs */
+.course-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    background-color: #e0f2fe;
+    color: #1e3a8a;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.tab-button.active {
+    background-color: #2563eb;
+    color: white;
+}
+
+/* Assignments Table */
+.assignments-table-container {
+    overflow-x: auto;
+}
+
+.assignments-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.assignments-table th,
+.assignments-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e2e8f0;
+    text-align: left;
+}
+
+.student-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.student-avatar {
+    background-color: #2563eb;
+    color: white;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* Status & Grade */
+.status {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.status.submitted {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.status.overdue {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+.grade.pending {
+    color: #f59e0b;
+}
+
+.grade.graded {
+    color: #10b981;
+}
+
+.grade.missing {
+    color: #ef4444;
+}
+
+/* Buttons */
+.btn-small {
+    padding: 6px 12px;
+    font-size: 13px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: #2563eb;
+    color: white;
+}
+
+.btn-secondary {
+    background-color: #e2e8f0;
+    color: #1e3a8a;
+}
+
+.btn-warning {
+    background-color: #fbbf24;
+    color: white;
+}
+
+.btn-success {
+    background-color: #10b981;
+    color: white;
+}
+
+/* Form Section */
+.homework-form-container {
+    background-color: #f8fafc;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.homework-form .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 6px;
+    color: #1e3a8a;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px #93c5fd;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* Footer */
+.footer {
+    background-color: #1e3a8a;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    margin-top: 40px;
+}
+
+.footer a {
+    color: #bfdbfe;
+}

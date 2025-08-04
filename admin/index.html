@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Admin Panel</span>
+                </div>
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item active">
+                        <a href="#" class="nav-link" data-section="overview">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Overview</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="students">
+                            <i class="fas fa-user-graduate"></i>
+                            <span>Students</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="teachers">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                            <span>Teachers</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="courses">
+                            <i class="fas fa-book"></i>
+                            <span>Courses</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="requests">
+                            <i class="fas fa-bell"></i>
+                            <span>Requests</span>
+                            <span class="badge">3</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="reports">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Reports</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="settings">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content" id="mainContent">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <h1 class="page-title">Dashboard Overview</h1>
+                    <p class="page-subtitle">Welcome back, Administrator</p>
+                    <div class="breadcrumb">
+                        <span class="breadcrumb-item">
+                            <i class="fas fa-home"></i>
+                            Home
+                        </span>
+                        <span class="breadcrumb-separator">
+                            <i class="fas fa-chevron-right"></i>
+                        </span>
+                        <span class="breadcrumb-item active">
+                            Dashboard
+                        </span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search..." class="tooltip" data-tooltip="Search across all sections">
+                    </div>
+                    <div class="admin-profile tooltip" data-tooltip="Profile Settings">
+                        <div class="profile-info">
+                            <span class="admin-name">Admin User</span>
+                            <span class="admin-role">Administrator</span>
+                        </div>
+                        <div class="profile-avatar">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Sections -->
+            
+            <!-- Overview Section -->
+            <div class="content-section active" id="overview-section">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon students">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-number" data-stat="totalStudents">5</h3>
+                            <p class="stat-label">Total Students</p>
+                            <span class="stat-change positive">+12%</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon teachers">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-number" data-stat="totalTeachers">5</h3>
+                            <p class="stat-label">Total Teachers</p>
+                            <span class="stat-change positive">+8%</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon courses">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-number" data-stat="totalCourses">5</h3>
+                            <p class="stat-label">Total Courses</p>
+                            <span class="stat-change positive">+15%</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon requests">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-number" data-stat="pendingRequests">2</h3>
+                            <p class="stat-label">Pending Requests</p>
+                            <span class="stat-change negative">-5%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="overview-grid">
+                    <div class="recent-activity">
+                        <h3>Recent Activity</h3>
+                        <div class="activity-list">
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-user-plus"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p>New student registered: Sarah Wilson</p>
+                                    <span class="activity-time">2 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p>Leave request approved for John Doe</p>
+                                    <span class="activity-time">4 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-book-open"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p>New course added: Programming Fundamentals</p>
+                                    <span class="activity-time">1 day ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="quick-actions">
+                        <h3>Quick Actions</h3>
+                        <div class="action-buttons">
+                            <button class="action-btn" onclick="showModal('addStudentModal')">
+                                <i class="fas fa-user-plus"></i>
+                                Add Student
+                            </button>
+                            <button class="action-btn" onclick="showModal('addTeacherModal')">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                                Add Teacher
+                            </button>
+                            <button class="action-btn" onclick="showModal('addCourseModal')">
+                                <i class="fas fa-book"></i>
+                                Add Course
+                            </button>
+                            <button class="action-btn" onclick="adminDashboard.navigateToSection('requests')">
+                                <i class="fas fa-bell"></i>
+                                View Requests
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Students Section -->
+            <div class="content-section" id="students-section" style="display: none;">
+                <div class="section-header">
+                    <h2>Students Management</h2>
+                    <button class="btn btn-primary" onclick="showModal('addStudentModal')">
+                        <i class="fas fa-plus"></i> Add Student
+                    </button>
+                </div>
+
+                <div class="filters">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" class="search-input" placeholder="Search students...">
+                    </div>
+                    <select class="filter-select">
+                        <option value="all">All Grades</option>
+                        <option value="10th">10th Grade</option>
+                        <option value="11th">11th Grade</option>
+                        <option value="12th">12th Grade</option>
+                    </select>
+                </div>
+
+                <div class="table-container">
+                    <table id="studentsTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Grade</th>
+                                <th>Subject</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Students will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Teachers Section -->
+            <div class="content-section" id="teachers-section" style="display: none;">
+                <div class="section-header">
+                    <h2>Teachers Management</h2>
+                    <button class="btn btn-primary" onclick="showModal('addTeacherModal')">
+                        <i class="fas fa-plus"></i> Add Teacher
+                    </button>
+                </div>
+
+                <div class="filters">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" class="search-input" placeholder="Search teachers...">
+                    </div>
+                    <select class="filter-select">
+                        <option value="all">All Subjects</option>
+                        <option value="Physics">Physics</option>
+                        <option value="Chemistry">Chemistry</option>
+                        <option value="Mathematics">Mathematics</option>
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="English">English</option>
+                    </select>
+                </div>
+
+                <div class="table-container">
+                    <table id="teachersTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Subject</th>
+                                <th>Experience</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Teachers will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Courses Section -->
+            <div class="content-section" id="courses-section" style="display: none;">
+                <div class="section-header">
+                    <h2>Courses Management</h2>
+                    <button class="btn btn-primary" onclick="showModal('addCourseModal')">
+                        <i class="fas fa-plus"></i> Add Course
+                    </button>
+                </div>
+
+                <div class="filters">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" class="search-input" placeholder="Search courses...">
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table id="coursesTable">
+                        <thead>
+                            <tr>
+                                <th>Course Name</th>
+                                <th>Subject</th>
+                                <th>Teacher</th>
+                                <th>Students</th>
+                                <th>Duration</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Courses will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Requests Section -->
+            <div class="content-section" id="requests-section" style="display: none;">
+                <div class="section-header">
+                    <h2>Requests Management</h2>
+                    <select id="requestFilter" class="filter-select">
+                        <option value="all">All Requests</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Rejected">Rejected</option>
+                    </select>
+                </div>
+
+                <div class="requests-container" id="requestsContainer">
+                    <!-- Requests will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Reports Section -->
+            <div class="content-section" id="reports-section" style="display: none;">
+                <div class="section-header">
+                    <h2>Reports & Analytics</h2>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3>Student Enrollment Trends</h3>
+                        <div class="chart-container">
+                            <canvas id="enrollmentChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Academic Performance</h3>
+                        <div class="chart-container">
+                            <canvas id="performanceChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Teacher Workload</h3>
+                        <div class="chart-container">
+                            <canvas id="workloadChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div class="content-section" id="settings-section" style="display: none;">
+                <div class="section-header">
+                    <h2>Settings</h2>
+                </div>
+                <div class="settings-content">
+                    <p>Settings page content will be added here.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Student Modal -->
+    <div class="modal" id="addStudentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Student</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form class="add-form" data-form="student">
+                <div class="form-group">
+                    <label for="studentName">Full Name</label>
+                    <input type="text" id="studentName" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="studentEmail">Email</label>
+                    <input type="email" id="studentEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="studentGrade">Grade</label>
+                    <select id="studentGrade" name="grade" required>
+                        <option value="">Select Grade</option>
+                        <option value="10th">10th Grade</option>
+                        <option value="11th">11th Grade</option>
+                        <option value="12th">12th Grade</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="studentSubject">Subject</label>
+                    <select id="studentSubject" name="subject" required>
+                        <option value="">Select Subject</option>
+                        <option value="Physics">Physics</option>
+                        <option value="Chemistry">Chemistry</option>
+                        <option value="Mathematics">Mathematics</option>
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="English">English</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('addStudentModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Student</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Teacher Modal -->
+    <div class="modal" id="addTeacherModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Teacher</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form class="add-form" data-form="teacher">
+                <div class="form-group">
+                    <label for="teacherName">Full Name</label>
+                    <input type="text" id="teacherName" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="teacherEmail">Email</label>
+                    <input type="email" id="teacherEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="teacherSubject">Subject</label>
+                    <select id="teacherSubject" name="subject" required>
+                        <option value="">Select Subject</option>
+                        <option value="Physics">Physics</option>
+                        <option value="Chemistry">Chemistry</option>
+                        <option value="Mathematics">Mathematics</option>
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="English">English</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="teacherExperience">Experience</label>
+                    <input type="text" id="teacherExperience" name="experience" placeholder="e.g., 5 years" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('addTeacherModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Teacher</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Course Modal -->
+    <div class="modal" id="addCourseModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Course</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form class="add-form" data-form="course">
+                <div class="form-group">
+                    <label for="courseName">Course Name</label>
+                    <input type="text" id="courseName" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="courseSubject">Subject</label>
+                    <select id="courseSubject" name="subject" required>
+                        <option value="">Select Subject</option>
+                        <option value="Physics">Physics</option>
+                        <option value="Chemistry">Chemistry</option>
+                        <option value="Mathematics">Mathematics</option>
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="English">English</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="courseTeacher">Teacher</label>
+                    <select id="courseTeacher" name="teacher" required>
+                        <option value="">Select Teacher</option>
+                        <option value="Dr. Robert Chen">Dr. Robert Chen</option>
+                        <option value="Prof. Lisa Park">Prof. Lisa Park</option>
+                        <option value="Mr. James Wilson">Mr. James Wilson</option>
+                        <option value="Ms. Emily Davis">Ms. Emily Davis</option>
+                        <option value="Dr. Michael Thompson">Dr. Michael Thompson</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="courseStudents">Number of Students</label>
+                    <input type="number" id="courseStudents" name="students" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="courseDuration">Duration</label>
+                    <input type="text" id="courseDuration" name="duration" placeholder="e.g., 1 year" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('addCourseModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Course</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
