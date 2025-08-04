@@ -104,19 +104,10 @@
             const userType = localStorage.getItem('user_type') || 'user';
             
             // Update profile name
-            document.getElementById('profileName').textContent = fullName;
+            document.getElementById('profileName').textContent = "Navin Gurung";
             
             // Update role based on user type
-            let role = 'User';
-            if (userType === 'student') {
-                role = 'Student';
-            } else if (userType === 'teacher') {
-                role = 'Teacher';
-            } else if (userType === 'parent') {
-                role = 'Parent';
-            } else if (userType === 'admin') {
-                role = 'Admin';
-            }
+            let role = 'Teacher';
             
             document.getElementById('profileRole').textContent = role;
         }
