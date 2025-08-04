@@ -466,6 +466,68 @@
         </div>
     </footer>
 
+    <!-- AI Helper Chat Widget -->
+    <div class="ai-helper-widget" id="aiHelperWidget">
+        <!-- Chat Button -->
+        <div class="chat-button" id="chatButton" onclick="toggleChat()">
+            <div class="chat-icon">🤖</div>
+            <div class="chat-label">Need Help?</div>
+            <div class="notification-dot" id="notificationDot"></div>
+        </div>
+
+        <!-- Chat Window -->
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <div class="chat-header-content">
+                    <div class="ai-avatar">🤖</div>
+                    <div class="chat-title">
+                        <h4>Uniglobe AI Assistant</h4>
+                        <span class="status">Online</span>
+                    </div>
+                </div>
+                <button class="close-chat" onclick="toggleChat()">×</button>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+                <div class="message ai-message">
+                    <div class="message-content">
+                        <p>Hello! I'm your Uniglobe AI assistant. How can I help you today? You can ask me about:</p>
+                        <ul>
+                            <li>📚 Academic programs and courses</li>
+                            <li>🎓 Admission requirements and process</li>
+                            <li>💰 Fees and scholarships</li>
+                            <li>🏫 Campus facilities and location</li>
+                            <li>📞 Contact information</li>
+                        </ul>
+                    </div>
+                    <div class="message-time">Just now</div>
+                </div>
+            </div>
+
+            <div class="quick-questions">
+                <div class="quick-question" onclick="askQuestion('What are the admission requirements?')">
+                    Admission requirements?
+                </div>
+                <div class="quick-question" onclick="askQuestion('What are the fees for different programs?')">
+                    Program fees?
+                </div>
+                <div class="quick-question" onclick="askQuestion('Where is the school located?')">
+                    School location?
+                </div>
+                <div class="quick-question" onclick="askQuestion('What extracurricular activities are available?')">
+                    ECA activities?
+                </div>
+            </div>
+
+            <div class="chat-input-container">
+                <input type="text" id="chatInput" placeholder="Type your question here..." onkeypress="handleChatInput(event)">
+                <button class="send-button" onclick="sendMessage()">
+                    <span>➤</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Loading Screen
         window.addEventListener('load', function() {
@@ -556,7 +618,264 @@
         // Initialize animations
         document.addEventListener('DOMContentLoaded', function() {
             animateOnScroll();
+            initializeAIHelper();
         });
+
+        // AI Helper Chat Widget Functions
+        let chatOpen = false;
+        let conversationHistory = [];
+
+        function initializeAIHelper() {
+            // Show notification dot after 5 seconds
+            setTimeout(() => {
+                document.getElementById('notificationDot').style.display = 'block';
+            }, 5000);
+        }
+
+        function toggleChat() {
+            const chatWindow = document.getElementById('chatWindow');
+            const notificationDot = document.getElementById('notificationDot');
+            
+            chatOpen = !chatOpen;
+            
+            if (chatOpen) {
+                chatWindow.classList.add('active');
+                notificationDot.style.display = 'none';
+            } else {
+                chatWindow.classList.remove('active');
+            }
+        }
+
+        function handleChatInput(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                addUserMessage(message);
+                input.value = '';
+                
+                // Show typing indicator
+                showTypingIndicator();
+                
+                // Simulate AI response after a delay
+                setTimeout(() => {
+                    hideTypingIndicator();
+                    const aiResponse = generateAIResponse(message);
+                    addAIMessage(aiResponse);
+                }, 1500 + Math.random() * 1000);
+            }
+        }
+
+        function askQuestion(question) {
+            addUserMessage(question);
+            showTypingIndicator();
+            
+            setTimeout(() => {
+                hideTypingIndicator();
+                const aiResponse = generateAIResponse(question);
+                addAIMessage(aiResponse);
+            }, 1000 + Math.random() * 500);
+        }
+
+        function addUserMessage(message) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message user-message';
+            
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            messageDiv.innerHTML = `
+                <div class="message-content">
+                    <p>${message}</p>
+                </div>
+                <div class="message-time">${time}</div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            scrollToBottom();
+            
+            // Store in conversation history
+            conversationHistory.push({ type: 'user', message: message, time: time });
+        }
+
+        function addAIMessage(response) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message ai-message';
+            
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            messageDiv.innerHTML = `
+                <div class="message-content">
+                    ${response}
+                </div>
+                <div class="message-time">${time}</div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            scrollToBottom();
+            
+            // Store in conversation history
+            conversationHistory.push({ type: 'ai', message: response, time: time });
+        }
+
+        function showTypingIndicator() {
+            const chatMessages = document.getElementById('chatMessages');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message ai-message';
+            typingDiv.id = 'typingIndicator';
+            
+            typingDiv.innerHTML = `
+                <div class="typing-indicator">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            `;
+            
+            chatMessages.appendChild(typingDiv);
+            scrollToBottom();
+        }
+
+        function hideTypingIndicator() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+
+        function scrollToBottom() {
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function generateAIResponse(userMessage) {
+            const message = userMessage.toLowerCase();
+            
+            // FAQ Responses
+            const faqResponses = {
+                'admission': {
+                    title: '📚 Admission Requirements',
+                    content: `
+                        <p>Here are the admission requirements for Uniglobe Higher Secondary School:</p>
+                        <ul>
+                            <li>🎓 Completed SEE (Secondary Education Examination)</li>
+                            <li>📋 Completed application form with all required documents</li>
+                            <li>📸 Recent passport-size photographs (2 copies)</li>
+                            <li>📄 SEE mark sheet and character certificate</li>
+                            <li>🏥 Medical fitness certificate</li>
+                            <li>💰 Application fee payment</li>
+                        </ul>
+                        <p><strong>Application Deadline:</strong> Usually in April-May each year</p>
+                        <p><strong>Contact:</strong> +977-1-4123456 or admissions@uniglobe.edu.np</p>
+                    `
+                },
+                'fee': {
+                    title: '💰 Program Fees',
+                    content: `
+                        <p>Here are the fee structures for our programs:</p>
+                        <ul>
+                            <li><strong>Science Stream:</strong> NPR 85,000 per year</li>
+                            <li><strong>Management Stream:</strong> NPR 75,000 per year</li>
+                            <li><strong>Law Stream:</strong> NPR 80,000 per year</li>
+                        </ul>
+                        <p><strong>Additional Fees:</strong></p>
+                        <ul>
+                            <li>📚 Books and materials: NPR 15,000-20,000</li>
+                            <li>👕 Uniform: NPR 5,000</li>
+                            <li>🏥 Medical insurance: NPR 2,000</li>
+                        </ul>
+                        <p><strong>Scholarships:</strong> Available for meritorious students and those from economically disadvantaged backgrounds.</p>
+                    `
+                },
+                'location': {
+                    title: '🏫 School Location',
+                    content: `
+                        <p><strong>Address:</strong> Kamladi, Kathmandu, Nepal</p>
+                        <p><strong>Landmarks:</strong> Near Kamladi Chowk, opposite to the main bus park</p>
+                        <p><strong>Transportation:</strong></p>
+                        <ul>
+                            <li>🚌 Public buses from various parts of Kathmandu</li>
+                            <li>🚕 Taxis and ride-sharing services</li>
+                            <li>🚶 Walking distance from major landmarks</li>
+                        </ul>
+                        <p><strong>Google Maps:</strong> <a href="https://maps.google.com" target="_blank" style="color: var(--accent-green);">View on Google Maps</a></p>
+                    `
+                },
+                'eca': {
+                    title: '🎨 Extracurricular Activities',
+                    content: `
+                        <p>We offer a wide range of ECA activities:</p>
+                        <ul>
+                            <li>🎵 <strong>Music & Arts:</strong> Choir, instrumental music, painting, sculpture</li>
+                            <li>🏆 <strong>Sports:</strong> Football, basketball, cricket, athletics, table tennis</li>
+                            <li>🎭 <strong>Drama & Theater:</strong> Annual plays, drama competitions</li>
+                            <li>📚 <strong>Academic Clubs:</strong> Science club, debate club, literature club</li>
+                            <li>🤝 <strong>Social Service:</strong> Community service, environmental awareness</li>
+                            <li>💻 <strong>Technology:</strong> Computer club, robotics, coding</li>
+                        </ul>
+                        <p><strong>Benefits:</strong> Leadership development, skill enhancement, and personal growth</p>
+                    `
+                },
+                'program': {
+                    title: '📖 Academic Programs',
+                    content: `
+                        <p>We offer three main academic streams:</p>
+                        <ul>
+                            <li>🔬 <strong>Science:</strong> Physics, Chemistry, Biology, Mathematics</li>
+                            <li>📊 <strong>Management:</strong> Business Studies, Accountancy, Economics</li>
+                            <li>⚖️ <strong>Law:</strong> Constitutional Law, Legal Studies, Human Rights</li>
+                        </ul>
+                        <p><strong>Features:</strong></p>
+                        <ul>
+                            <li>👨‍🏫 Experienced faculty members</li>
+                            <li>🔬 Modern laboratory facilities</li>
+                            <li>📚 Comprehensive study materials</li>
+                            <li>🎯 Career counseling and guidance</li>
+                        </ul>
+                    `
+                },
+                'contact': {
+                    title: '📞 Contact Information',
+                    content: `
+                        <p><strong>Phone:</strong> +977-1-4123456</p>
+                        <p><strong>Email:</strong> info@uniglobe.edu.np</p>
+                        <p><strong>Admissions Email:</strong> admissions@uniglobe.edu.np</p>
+                        <p><strong>Address:</strong> Kamladi, Kathmandu, Nepal</p>
+                        <p><strong>Office Hours:</strong></p>
+                        <ul>
+                            <li>Sunday - Friday: 6:00 AM - 4:00 PM</li>
+                            <li>Saturday: Closed</li>
+                        </ul>
+                        <p><strong>Emergency Contact:</strong> +977-9851234567</p>
+                    `
+                }
+            };
+
+            // Check for specific keywords in the message
+            for (const [keyword, response] of Object.entries(faqResponses)) {
+                if (message.includes(keyword)) {
+                    return `<h4>${response.title}</h4>${response.content}`;
+                }
+            }
+
+            // General responses for other questions
+            const generalResponses = [
+                "I'd be happy to help you with that! Could you please provide more specific details about your question?",
+                "That's a great question! Let me connect you with the right information. What specific aspect would you like to know more about?",
+                "I'm here to help! For the most accurate and up-to-date information, I recommend contacting our admissions office directly at +977-1-4123456.",
+                "Thank you for your interest in Uniglobe! I'd be glad to assist you further. Could you clarify your question a bit more?",
+                "I understand your question. For detailed information, please visit our website or contact our office during business hours."
+            ];
+
+            return `<p>${generalResponses[Math.floor(Math.random() * generalResponses.length)]}</p>`;
+        }
     </script>
 </body>
 </html>
