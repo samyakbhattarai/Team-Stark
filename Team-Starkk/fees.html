@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fee Management</title>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  />
+  <link href="https://fonts.googleapis.com/css2?family=Libertinus+Serif&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="feescss.css">
+  
+</head>
+<body>
+  <div class="container">
+    <a href="dashboard.html" class="back-button">
+      <i class="fas fa-arrow-left"></i>
+      Back to Dashboard
+    </a>
+    <h1><i class="fas fa-wallet"></i> Fee Management</h1>
+
+    <div class="fee-row">
+      <span>Tuition Fee:</span>
+      <span id="tuitionFee">₹40,000</span>
+    </div>
+    <div class="fee-row">
+      <span>Transportation Fee:</span>
+      <span id="transportFee">₹5,000</span>
+    </div>
+
+    <div class="fee-row total">
+      <span>Total Due:</span>
+      <span id="totalDue">₹45,000</span>
+    </div>
+    <div class="fee-row">
+      <span>Amount Paid:</span>
+      <span id="amountPaid">₹30,000</span>
+    </div>
+    <div class="fee-row">
+      <span>Remaining Balance:</span>
+      <span id="remaining">₹15,000</span>
+    </div>
+
+    <div class="progress-section">
+      <div class="progress-labels">
+        <span>Paid</span><span>Due</span>
+      </div>
+      <progress id="feeProgress" value="30000" max="45000"></progress>
+    </div>
+
+    <div class="pay-section">
+      <h3>Make a Payment</h3>
+
+      <label for="payAmount">Enter amount to pay:</label>
+      <input
+        type="number"
+        id="payAmount"
+        min="1"
+        max="15000"
+        placeholder="₹ Amount (max ₹15,000)"
+      />
+
+      <div class="payment-methods">
+        <input type="radio" id="credit" name="paymentMethod" value="credit" checked />
+        <label for="credit"><i class="fas fa-credit-card"></i> Credit Card</label>
+
+        <input type="radio" id="esewa" name="paymentMethod" value="esewa" />
+        <label for="esewa"><i class="fas fa-wallet"></i> eSewa</label>
+      </div>
+
+      <div class="payment-details">
+        
+        <div class="method-details credit" style="display: block;">
+          <label for="ccNumber">Card Number:</label>
+          <input type="text" id="ccNumber" maxlength="19" placeholder="0000 0000 0000 0000" />
+
+          <label for="ccExpiry">Expiry (MM/YY):</label>
+          <input type="text" id="ccExpiry" maxlength="5" placeholder="MM/YY" />
+
+          <label for="ccCvv">CVV:</label>
+          <input type="password" id="ccCvv" maxlength="4" placeholder="000" />
+        </div>
+
+        <div class="method-details esewa" style="display: none;">
+          <label for="esewaId">eSewa Account ID (Email or Phone):</label>
+          <input type="text" id="esewaId" placeholder="980000000" />
+        </div>
+      </div>
+
+      <div class="error-message" id="errorMessage"></div>
+
+      <button id="payButton">Pay Now</button>
+    </div>
+  </div>
+
+  <!-- Popup Notification -->
+  <div id="paymentPopup" class="payment-popup" style="display:none;">
+    Payment successful!
+  </div>
+
+  <script>
+    const payAmountInput = document.getElementById('payAmount');
+    const paymentMethods = document.getElementsByName('paymentMethod');
+    const creditDetails = document.querySelector('.method-details.credit');
+    const esewaDetails = document.querySelector('.method-details.esewa');
+    const errorMessage = document.getElementById('errorMessage');
+    const payButton = document.getElementById('payButton');
+    const paymentPopup = document.getElementById('paymentPopup');
+
+    function updatePaymentDetails() {
+      const selectedMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+      if (selectedMethod === 'credit') {
+        creditDetails.style.display = 'block';
+        esewaDetails.style.display = 'none';
+      } else {
+        creditDetails.style.display = 'none';
+        esewaDetails.style.display = 'block';
+      }
+      errorMessage.textContent = '';
+    }
+
+    paymentMethods.forEach(radio => {
+      radio.addEventListener('change', updatePaymentDetails);
+    });
+
+    function validateCreditCard() {
+      const ccNumber = document.getElementById('ccNumber').value.trim();
+      const ccExpiry = document.getElementById('ccExpiry').value.trim();
+      const ccCvv = document.getElementById('ccCvv').value.trim();
+
+      const ccNumberValid = /^[0-9 ]{13,19}$/.test(ccNumber);
+      const ccExpiryValid = /^(0[1-9]|1[0-2])\/\d{2}$/.test(ccExpiry);
+      const ccCvvValid = /^\d{3,4}$/.test(ccCvv);
+
+      if (!ccNumberValid) {
+        errorMessage.textContent = 'Please enter a valid card number.';
+        return false;
+      }
+      if (!ccExpiryValid) {
+        errorMessage.textContent = 'Please enter expiry in MM/YY format.';
+        return false;
+      }
+      if (!ccCvvValid) {
+        errorMessage.textContent = 'Please enter a valid CVV.';
+        return false;
+      }
+      return true;
+    }
+
+    function validateEsewa() {
+      const esewaId = document.getElementById('esewaId').value.trim();
+      if (!esewaId) {
+        errorMessage.textContent = 'Please enter your eSewa Account ID.';
+        return false;
+      }
+      return true;
+    }
+
+    payButton.addEventListener('click', () => {
+      errorMessage.textContent = '';
+
+      const amount = parseFloat(payAmountInput.value);
+      const remainingBalance = 15000;
+
+      if (isNaN(amount) || amount <= 0) {
+        errorMessage.textContent = 'Please enter a valid payment amount.';
+        return;
+      }
+
+      if (amount > remainingBalance) {
+        errorMessage.textContent = `Payment amount cannot exceed remaining balance ₹${remainingBalance}.`;
+        return;
+      }
+
+      const selectedMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+      if (selectedMethod === 'credit') {
+        if (!validateCreditCard()) return;
+      } else if (selectedMethod === 'esewa') {
+        if (!validateEsewa()) return;
+      }
+
+      // Simulate payment processing
+      payButton.disabled = true;
+      payButton.textContent = 'Processing...';
+
+      setTimeout(() => {
+        // Show popup message instead of alert
+        paymentPopup.textContent = `Payment of ₹${amount.toFixed(2)} successful via ${selectedMethod === 'credit' ? 'Credit Card' : 'eSewa'}!`;
+        paymentPopup.style.display = 'block';
+
+        setTimeout(() => {
+          paymentPopup.classList.add('show');
+        }, 10);
+
+        setTimeout(() => {
+          paymentPopup.classList.remove('show');
+          setTimeout(() => {
+            paymentPopup.style.display = 'none';
+          }, 500);
+        }, 3000);
+
+        // Reset form fields
+        payAmountInput.value = '';
+        if (selectedMethod === 'credit') {
+          document.getElementById('ccNumber').value = '';
+          document.getElementById('ccExpiry').value = '';
+          document.getElementById('ccCvv').value = '';
+        } else {
+          document.getElementById('esewaId').value = '';
+        }
+        errorMessage.textContent = '';
+        payButton.disabled = false;
+        payButton.textContent = 'Pay Now';
+
+        // TODO: Update your remaining balance and UI here if needed
+      }, 1500);
+    });
+
+    // Initialize display on load
+    updatePaymentDetails();
+  </script>
+</body>
+</html>

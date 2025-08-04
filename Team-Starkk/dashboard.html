@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dashboard</title>
+<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="https://tinyurl.com/34bhzkan" />
+<style>
+  .calendar-frame {width:100%;height:600px;border:none;}
+  .events-box, .weekdays, .days-grid {display:none;}
+</style>
+</head>
+<body>
+  <div class="dash">
+    <div class="wrapper">
+      <div class="top">
+        <h1>Dashboard</h1>
+        <p>Welcome back! Here's what's happening today.</p>
+      </div>
+      <div class="stats">
+        <div class="box">
+          <div class="box-inner">
+            <div class="info">
+              <p class="title">Profile</p>
+              <p class="value">View</p>
+            </div>
+            <a href="profile.html"><i class="fas fa-bell icon"></i></a>
+          </div>
+        </div>
+        <div class="box">
+          <div class="box-inner">
+            <div class="info">
+              <p class="title">Leave</p>
+              <p class="value">12 Days</p>
+            </div>
+            <a href="leave.html"><i class="fas fa-calendar-days icon"></i></a>
+          </div>
+        </div>
+        <div class="box">
+          <div class="box-inner">
+            <div class="info">
+              <p class="title">Fee</p>
+              <p class="value">Remaining Due</p>
+            </div>
+            <a href="fees.html"><i class="fas fa-wallet icon"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="main">
+        <div class="calendar card">
+          <div class="card-head"><h3>Calendar</h3></div>
+          <div class="card-body">
+            <iframe src="https://calendar.google.com/calendar/embed?src=your_calendar_id%40group.calendar.google.com&ctz=Asia%2FKathmandu" class="calendar-frame" loading="lazy"></iframe>
+          </div>
+        </div>
+        <div class="notices card">
+          <div class="card-head"><h3>Notice Board</h3></div>
+          <div class="card-body">
+            <div class="notice-list">
+              <div class="notice">
+                <div class="notice-top"><h4>Orientation Program</h4><span>Today</span></div>
+                <p>The Orientation Program 2025 will be held from August 12–14 at the Main Auditorium, Everest International College, Kathmandu. It welcomes new students with campus tours, academic guidance, and interactive sessions. The event helps students transition smoothly into college life and build connections with peers, faculty, and student services.</p>
+              </div>
+              <div class="notice">
+                <div class="notice-top"><h4>Concert</h4><span>Yesterday</span></div>
+                <p>The Annual  Concert will be held on August 16, 2025, at the College Grounds, Everest International College, Kathmandu. Enjoy live performances, food stalls, and an unforgettable evening of music and celebration to kick off the new academic year.</p>
+              </div>
+              <div class="notice">
+                <div class="notice-top"><h4>Holiday Schedule</h4><span>2 days ago</span></div>
+                <p>The Intercollege Debate Competition will take place on August 20, 2025, in the Conference Hall of Everest International College, Kathmandu. Teams will compete on current global issues, showcasing critical thinking, public speaking, and persuasive argumentation in front of judges and a live audience.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="extras">
+        <div class="card">
+          <div class="card-head">
+  <a href="teachers.html" class="teachers">
+    <h3>Teachers</h3>
+  </a>
+  <div class="card-body"><p class="filler">Our dedicated teachers are always ready to guide and support you throughout your academic journey.</p></div>
+</div>
+
+        </div>
+        <div class="card">
+          <div class="card-head"><h3><a href="assignment.html" class="card-link">Assignments</a></h3></div>
+          <div class="card-body"><p class="filler">No pending assignments.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

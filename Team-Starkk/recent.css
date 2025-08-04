@@ -1,0 +1,57 @@
+/* Reset & base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8fafc;
+  color: #1e293b;
+  line-height: 1.6;
+  padding: 2rem;
+}
+
+/* General container styles */
+.eca-mega, .cca-mega {
+  margin-bottom: 3rem;
+  border-radius: 1rem;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 2rem;
+}
+
+/* Section headings */
+.eca-thread, .cca-thread {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #1d4ed8;
+  border-bottom: 2px solid #1d4ed8;
+  padding-bottom: 0.5rem;
+}
+
+/* Individual category blocks */
+.eca-stuff1, .eca-stuff2, .eca-stuff3,
+.cca-stuff1, .cca-stuff2 {
+  margin-bottom: 1.5rem;
+  background-color: #eff6ff;
+  border-left: 4px solid #3b82f6;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+/* Headings within each block */
+.eca-stuff1 h3, .eca-stuff2 h3, .eca-stuff3 h3,
+.cca-stuff1 h3, .cca-stuff2 h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: #1e40af;
+}
+
+/* Paragraphs */
+.p1, .p2, .p3 {
+  font-size: 1rem;
+  color: #334155;
+}

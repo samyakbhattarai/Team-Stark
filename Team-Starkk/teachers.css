@@ -1,0 +1,398 @@
+/* Enhanced Teachers Page Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    /* Color Palette */
+    --primary-blue: #007bff;          /* Bright Blue */
+    --primary-light: #cce5ff;         /* Light Blue */
+    --academic-navy: #004085;         /* Dark Blue */
+    --warm-beige: #ffffff;            /* White instead of beige */
+    --warm-gold: #e6f0ff;             /* Very light blue tint */
+
+    --sage-green: #007bff;            /* Using blue here */
+
+    /* Gradients */
+    --gradient-warm: linear-gradient(135deg, #007bff 0%, #66b2ff 100%);
+    --gradient-primary: linear-gradient(135deg, #007bff, #cce5ff);
+    --gradient-card: linear-gradient(145deg, #ffffffd0, #f0f8ff);
+
+    /* Shadows */
+    --shadow-soft: 0 4px 20px rgba(0, 123, 255, 0.08);
+    --shadow-hover: 0 8px 30px rgba(0, 123, 255, 0.15);
+    --shadow-glow: 0 0 30px rgba(0, 123, 255, 0.3);
+
+    /* Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    background: var(--gradient-warm);
+    color: var(--academic-navy);
+    min-height: 100vh;
+}
+
+.page-container {
+    position: relative;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Background Pattern */
+.bg-pattern {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+}
+
+/* Header Styles */
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--primary-blue);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 123, 255, 0.2);
+    border-radius: 0.5rem;
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    transition: var(--transition-smooth);
+    margin-bottom: 2rem;
+}
+
+.back-btn:hover {
+    background: var(--academic-navy);
+    color: white;
+    box-shadow: var(--shadow-glow);
+}
+
+.header-content {
+    text-align: center;
+    margin-bottom: 3rem;
+    color: white;
+}
+
+.header-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    box-shadow: var(--shadow-glow);
+    margin-bottom: 1rem;
+    position: relative;
+    top: -10px; /* Moves icon up */
+}
+
+.header-icon i {
+    font-size: 2rem;
+    color: white;
+}
+
+.page-title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1rem;
+}
+
+.page-subtitle {
+    font-size: 1.25rem;
+    color: #444;
+    max-width: 32rem;
+    margin: 0 auto 2rem;
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    background: rgba(0, 123, 255, 0.2);
+    border-radius: 50%;
+    margin-bottom: 0.5rem;
+}
+
+.stat-icon.award {
+    background: rgba(204, 229, 255, 0.3);
+}
+
+.stat-icon i {
+    font-size: 1.5rem;
+    color: var(--primary-blue);
+}
+
+.stat-icon.award i {
+    color: var(--academic-navy);
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--academic-navy);
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: #444;
+}
+
+/* Teachers Grid */
+.teachers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+/* Teacher Cards */
+.teacher-card {
+    position: relative;
+    background: var(--gradient-card);
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+    transition: var(--transition-smooth);
+    animation: fadeInUp 0.6s ease-out both;
+    transform: none; /* Removed base translateY for consistent vertical alignment */
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.teacher-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-hover);
+}
+
+.card-overlay {
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-primary);
+    opacity: 0;
+    transition: var(--transition-smooth);
+    z-index: 1;
+}
+
+.teacher-card:hover .card-overlay {
+    opacity: 0.05;
+}
+
+.image-container {
+    position: relative;
+    overflow: hidden;
+    padding: 0.5rem; /* Padding added around photo */
+    box-sizing: border-box;
+}
+
+.teacher-photo {
+    width: 100%;
+    height: 16rem; /* Fixed height for uniformity */
+    object-fit: cover;
+    border-radius: 0.75rem; /* Rounded corners */
+    transition: var(--transition-smooth);
+}
+
+.teacher-card:hover .teacher-photo {
+    transform: scale(1.05);
+}
+
+.image-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.2), transparent);
+    opacity: 0;
+    transition: var(--transition-smooth);
+    border-radius: 0.75rem;
+}
+
+.teacher-card:hover .image-overlay {
+    opacity: 1;
+}
+
+/* Card Content */
+.card-content {
+    padding: 2rem 1.5rem; /* Increased padding for breathing space */
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.teacher-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--academic-navy);
+    margin-bottom: 0.75rem;
+    transition: var(--transition-smooth);
+}
+
+.teacher-card:hover .teacher-name {
+    color: var(--primary-blue);
+}
+
+.subject-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.5rem 1rem;
+    background: rgba(204, 229, 255, 0.2);
+    color: var(--academic-navy);
+    border: 1px solid rgba(204, 229, 255, 0.3);
+    border-radius: 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.specialization {
+    font-size: 0.875rem;
+    color: #444;
+    font-style: italic;
+    margin-bottom: 1rem;
+}
+
+.contact-info {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.75rem;
+    color: #444;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.contact-item:hover {
+    color: var(--primary-blue);
+}
+
+.contact-item span {
+    display: none;
+}
+
+@media (min-width: 640px) {
+    .contact-item span {
+        display: inline;
+    }
+}
+
+/* Hover Border Effect */
+.hover-border {
+    position: absolute;
+    inset: 0;
+    border: 2px solid transparent;
+    border-radius: 1rem;
+    transition: var(--transition-smooth);
+    pointer-events: none;
+}
+
+.teacher-card:hover .hover-border {
+    border-color: rgba(0, 123, 255, 0.2);
+}
+
+/* Footer */
+.page-footer {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    border-radius: 1rem;
+    box-shadow: var(--shadow-soft);
+}
+
+.page-footer h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--academic-navy);
+    margin-bottom: 1rem;
+}
+
+.page-footer p {
+    color: #444;
+    margin-bottom: 1.5rem;
+    max-width: 32rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.contact-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--gradient-primary);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.contact-btn:hover {
+    box-shadow: var(--shadow-glow);
+    transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .page-title {
+        font-size: 2rem;
+    }
+    
+    .stats-grid {
+        gap: 1rem;
+    }
+    
+    .teachers-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .page-container {
+        padding: 1rem 0.5rem;
+    }
+}
